@@ -1,0 +1,29 @@
+# Common aux folders
+.awcache/
+.vscode/
+.idea/
+.cache/
+.sonarlint/
+
+# Dependencies & Build
+node_modules/
+build/
+junit.xml
+
+# Aux files
+*.cer
+*.log
+*/src/**/*.orig
+*/src/**/*.js.map
+
+# Win
+desktop.ini
+
+# MacOs
+.DS_Store
+
+# NPM
+package-lock.json
+
+# Yarn
+yarn.lock

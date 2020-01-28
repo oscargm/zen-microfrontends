@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="LisComponents.LISDiv">
+<Description><![CDATA[
+LisComponents.LISDiv
+2019
+	
+	LisComponent to draw div elements
+	---------------------------------
+	Main purpose of the component is
+		- Not use LISGroups to group elements
+		- Align items using flexbox adding lot less html to the page
+
+	---------------------------------
+
+	Accepts the following optional props:
+		- id:		html id prop
+		- class:	html class prop to indicate css classes afecting into the element
+		- style:	html style prop to override styles affected by inheritance or assigned classes
+
+	---------------------------------
+	Usage: 
+		<lis:LISDiv id="" class="" style="">
+			...children like <lis:LISButton/>
+		</lis:LISDiv>
+]]></Description>
+<Super>%ZEN.Component.abstractGroup</Super>
+<System>3</System>
+<TimeCreated>60331,60325.736997</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="NAMESPACE">
+<Description>
+This is the XML namespace for this component.</Description>
+<Default>LISComponents</Default>
+</Parameter>
+
+<Parameter name="DEFAULTLABELCLASS">
+<Description>
+Subclasses can set this to change default css class used for labels.</Description>
+<Type>STRING</Type>
+<Default>LISDiv</Default>
+</Parameter>
+
+<Property name="class">
+<Description>
+	CSS class prop string</Description>
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Property name="style">
+<Description>
+	CSS style prop string</Description>
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Method name="%DrawHTML">
+<Description>
+This Style block contains component-specific CSS style definitions.</Description>
+<Implementation><![CDATA[
+	&html<<div id="#($CASE(..id,"":"",:..id))#" #($CASE(..class,"":"",:"class="""_..class)_"")# #($CASE(..style,"":"",:"style="""_..style)_"""")#>>
+	For n=1:1:..children.Count() {
+		Do ..children.GetAt(n).%DrawComponentHTML()
+	}
+	&html<</div>>
+]]></Implementation>
+</Method>
+
+<Method name="setProperty">
+<FormalSpec>property,value</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	
+	switch(property) {
+	case 'class':
+			this.class = value;
+			this.setAttribute('class',value);
+		break;
+	case 'style':
+			this.style = value;
+			this.setAttribute('style',value);
+		break;
+	case 'hidden':
+    		this.setHidden(value);
+        break;
+	default:
+		break;		
+	}
+]]></Implementation>
+</Method>
+
+<Method name="setAttribute">
+<FormalSpec>attributeName,value</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	var enc = this.getEnclosingDiv();
+	enc.setAttribute(attributeName,value);
+]]></Implementation>
+</Method>
+</Class>
+</Export>

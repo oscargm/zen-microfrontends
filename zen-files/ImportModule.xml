@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="LISPages.testing.ImportModule">
+<Super>LisComponents.LISPage</Super>
+<TimeCreated>65398,53833.402778</TimeCreated>
+
+<Parameter name="NAMESPACE">
+<Default>LISComponents</Default>
+</Parameter>
+
+<Property name="wrapperElement">
+<Type>LisComponents.LISDiv</Type>
+</Property>
+
+<Property name="globalStore">
+<Type>%DynamicObject</Type>
+</Property>
+
+<Property name="moduleStates">
+<Type>%DynamicObject</Type>
+</Property>
+
+<Parameter name="INCLUDEFILES">
+<Type>STRING</Type>
+<Default>global-store-1.0.0.js</Default>
+</Parameter>
+
+<XData name="Contents">
+<Description>
+This XML block defines the contents of this page.</Description>
+<Data><![CDATA[
+<page id="page" xmlns="http://www.intersystems.com/zen" xmlns:lis="LISComponents">
+	<lis:LISDiv id="moduleWrapper" style="padding:1rem;display:flex">
+	<lis:LISExternalComponent 
+		id="moduleA"
+		moduleType="modules" 
+		moduleName="module-a" 
+		loadAsync="true"
+		callback="zenPage.componentCallback(module, 'storeTextA')"
+	/>
+	<lis:LISExternalComponent 
+		id="moduleB"
+		moduleType="modules" 
+		moduleName="module-b" 
+		loadAsync="true"
+		callback="zenPage.componentCallback(module, 'storeTextB')"
+	/>
+	</lis:LISDiv>
+	<lis:LISDiv id="zenWrapper" style="padding:1rem;display:flex">
+	<lis:LISDiv id="zenWrapperModuleA" style="padding:1rem;">
+		<lis:LISLabel 
+			id="zenLegendA"
+			value="ZENPage Application"
+			/>
+		<lis:LISTextArea 
+			id="storeTextA"
+			onkeyup="zenPage.updateLabel(event,'moduleA')"
+			width="300px"
+			/>
+	</lis:LISDiv>
+	<lis:LISDiv id="zenWrapperModuleB" style="padding:1rem;">
+		<lis:LISLabel 
+			id="zenLegendB"
+			value="ZENPage Application"
+			/>
+		<lis:LISTextArea 
+			id="storeTextB"
+			onkeyup="zenPage.updateLabel(event,'moduleB')"
+			width="300px"
+			/>
+	</lis:LISDiv>
+	</lis:LISDiv>
+</page>
+]]></Data>
+</XData>
+
+<Method name="updateLabel">
+<FormalSpec>event,targetElement</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	console.log('updateLabel', event);
+	zen(targetElement).state.globalStore.text.set(event.target.value)
+]]></Implementation>
+</Method>
+
+<Method name="componentCallback">
+<FormalSpec>module,labelId</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	console.log('component callback',module);
+	console.log('component callback',labelId);
+	var globalStore = module.state.globalStore;
+	globalStore.text.subscribe(function(value) {
+		zen(labelId).setProperty('value', value);
+		zen(labelId).setProperty('title', value);
+	}, this);
+	zen(labelId).setProperty('value', globalStore.text.get());
+	zen(labelId).setProperty('title', globalStore.text.get());
+]]></Implementation>
+</Method>
+</Class>
+</Export>

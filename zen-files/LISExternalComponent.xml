@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="LisComponents.External.LISExternalComponent">
+<Description>
+LisComponents.LISExternalComponent</Description>
+<Super>%ZEN.Component.component</Super>
+<TimeCreated>65399,46483.544056</TimeCreated>
+<LegacyInstanceContext>1</LegacyInstanceContext>
+
+<Parameter name="NAMESPACE">
+<Default>LISComponents</Default>
+</Parameter>
+
+<Parameter name="DEFAULTLABELCLASS">
+<Type>STRING</Type>
+<Default>LISExternalComponent</Default>
+</Parameter>
+
+<Property name="state">
+<Type>%DynamicObject</Type>
+</Property>
+
+<Parameter name="INCLUDEFILES">
+<Type>STRING</Type>
+<Default>global-store-1.0.0.js, dynamic-import-module-loader-1.0.0.js</Default>
+</Parameter>
+
+<Property name="class">
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Property name="style">
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Property name="moduleType">
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Property name="moduleName">
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Property name="loadAsync">
+<Type>%ZEN.Datatype.boolean</Type>
+</Property>
+
+<Property name="wrapperElement">
+<Type>LisComponents.LISDiv</Type>
+</Property>
+
+<Property name="callback">
+<Type>%ZEN.Datatype.eventHandler</Type>
+</Property>
+
+<XData name="Contents">
+<Description>
+This XML block defines the contents of this page.</Description>
+<Data><![CDATA[<lis:LISDiv id="this.id"/>
+]]></Data>
+</XData>
+
+<Method name="onloadHandler">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+
+	var externalStateInstance = this.window["global-store"].globalStore(this.moduleName)[this.moduleName]
+	this.state = {customTitle: this.moduleName, globalStore: externalStateInstance}
+	console.log('modified state',this.state)
+	this.wrapperElement = document.querySelector('#'+this.id);
+	var that = this;
+	this.window['dynamic-import-module-loader'].load(this.moduleType, this.moduleName, this.loadAsync, function() {
+		that.window.DynamicImportModule.App.render(that.state, that.wrapperElement);
+		if (that.callback) {
+			console.log('has callback');
+			zenInvokeCallbackMethod(that.callback,that,'callback','module',that);
+		}
+	})
+]]></Implementation>
+</Method>
+</Class>
+</Export>

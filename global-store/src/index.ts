@@ -1,2 +1,2 @@
-export { globalStore } from "./global.store";
+export { createModuleState } from "./global.store";
 export { default } from "./global.store";

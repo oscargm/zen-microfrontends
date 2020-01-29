@@ -5,10 +5,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "globalStore", {
+Object.defineProperty(exports, "createModuleState", {
   enumerable: true,
   get: function get() {
-    return _global.globalStore;
+    return _global.createModuleState;
   }
 });
 Object.defineProperty(exports, "default", {

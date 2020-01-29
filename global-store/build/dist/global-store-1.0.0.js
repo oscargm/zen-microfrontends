@@ -2984,23 +2984,15 @@ var global_data_GlobalData = function GlobalData(initialValue) {
 
 function global_store_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
- // export interface GlobalStore {
-//   text: GlobalData<string>;
-//   counter: GlobalData<number>;
-// }
 
-// export const globalStore: GlobalStore = {
-//   text: new GlobalData("Este texto está almacenado globalmente y es accesible por todos los módulos"),
-//   counter: new GlobalData(0),
-// };
-var global_store_globalStore = function globalStore(moduleName) {
+var global_store_createModuleState = function createModuleState(moduleName) {
   return global_store_defineProperty({}, moduleName, {
     text: new global_data_GlobalData("Store of ".concat(moduleName))
   });
 };
-/* harmony default export */ var global_store = (global_store_globalStore);
+/* harmony default export */ var global_store = (global_store_createModuleState);
 // CONCATENATED MODULE: ./index.ts
-/* concated harmony reexport globalStore */__webpack_require__.d(__webpack_exports__, "globalStore", function() { return global_store_globalStore; });
+/* concated harmony reexport createModuleState */__webpack_require__.d(__webpack_exports__, "createModuleState", function() { return global_store_createModuleState; });
 /* concated harmony reexport default */__webpack_require__.d(__webpack_exports__, "default", function() { return global_store; });
 
 

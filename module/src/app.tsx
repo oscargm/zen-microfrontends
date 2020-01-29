@@ -5,11 +5,11 @@ import { GlobalTextProvider } from './common/providers/global-text';
 import { TextComponent } from './text-component';
 
 const AppComponent = (props: AppProps) => {
-  const { id, customTitle, globalStore } = props;
+  const { id, customTitle, moduleState } = props;
 
   return (
     <>
-      <GlobalTextProvider globalStore={globalStore}>
+      <GlobalTextProvider globalStore={moduleState}>
         <TextComponent customTitle={customTitle} id={id} />
       </GlobalTextProvider>
     </>

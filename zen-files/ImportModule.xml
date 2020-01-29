@@ -20,11 +20,6 @@
 <Type>%DynamicObject</Type>
 </Property>
 
-<Parameter name="INCLUDEFILES">
-<Type>STRING</Type>
-<Default>global-store-1.0.0.js</Default>
-</Parameter>
-
 <XData name="Contents">
 <Description>
 This XML block defines the contents of this page.</Description>
@@ -32,18 +27,18 @@ This XML block defines the contents of this page.</Description>
 <page id="page" xmlns="http://www.intersystems.com/zen" xmlns:lis="LISComponents">
 	<lis:LISDiv id="moduleWrapper" style="padding:1rem;display:flex">
 	<lis:LISExternalComponent 
-		id="moduleA"
+		id="standaloneModuleA"
 		moduleType="modules" 
-		moduleName="module-a" 
+		moduleName="standalone-module-a" 
 		loadAsync="true"
-		callback="zenPage.componentCallback(module, 'storeTextA')"
+		callback="zenPage.onModuleLoad(module, 'storeTextA')"
 	/>
 	<lis:LISExternalComponent 
-		id="moduleB"
+		id="standaloneModuleB"
 		moduleType="modules" 
-		moduleName="module-b" 
+		moduleName="standalone-module-b" 
 		loadAsync="true"
-		callback="zenPage.componentCallback(module, 'storeTextB')"
+		callback="zenPage.onModuleLoad(module, 'storeTextB')"
 	/>
 	</lis:LISDiv>
 	<lis:LISDiv id="zenWrapper" style="padding:1rem;display:flex">
@@ -54,7 +49,7 @@ This XML block defines the contents of this page.</Description>
 			/>
 		<lis:LISTextArea 
 			id="storeTextA"
-			onkeyup="zenPage.updateLabel(event,'moduleA')"
+			onkeyup="zenPage.updateLabel(event,'standaloneModuleA')"
 			width="300px"
 			/>
 	</lis:LISDiv>
@@ -65,7 +60,7 @@ This XML block defines the contents of this page.</Description>
 			/>
 		<lis:LISTextArea 
 			id="storeTextB"
-			onkeyup="zenPage.updateLabel(event,'moduleB')"
+			onkeyup="zenPage.updateLabel(event,'standaloneModuleB')"
 			width="300px"
 			/>
 	</lis:LISDiv>
@@ -78,26 +73,29 @@ This XML block defines the contents of this page.</Description>
 <FormalSpec>event,targetElement</FormalSpec>
 <Language>javascript</Language>
 <ClientMethod>1</ClientMethod>
-<Implementation><![CDATA[
-	console.log('updateLabel', event);
-	zen(targetElement).state.globalStore.text.set(event.target.value)
+<Implementation><![CDATA[	zen(targetElement).state.moduleState.text.set(event.target.value);
 ]]></Implementation>
 </Method>
 
-<Method name="componentCallback">
+<Method name="onModuleLoad">
 <FormalSpec>module,labelId</FormalSpec>
 <Language>javascript</Language>
 <ClientMethod>1</ClientMethod>
 <Implementation><![CDATA[
-	console.log('component callback',module);
-	console.log('component callback',labelId);
-	var globalStore = module.state.globalStore;
-	globalStore.text.subscribe(function(value) {
+	zenPage.moduleStates[module.moduleName] = module.state.moduleState;
+	module.state.moduleState.text.subscribe(function(value) {
 		zen(labelId).setProperty('value', value);
 		zen(labelId).setProperty('title', value);
 	}, this);
-	zen(labelId).setProperty('value', globalStore.text.get());
-	zen(labelId).setProperty('title', globalStore.text.get());
+	zen(labelId).setProperty('value', module.state.moduleState.text.get());
+	zen(labelId).setProperty('title', module.state.moduleState.text.get());
+]]></Implementation>
+</Method>
+
+<Method name="onloadHandler">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[	zenPage.moduleStates = {};
 ]]></Implementation>
 </Method>
 </Class>

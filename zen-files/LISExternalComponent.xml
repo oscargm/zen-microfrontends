@@ -64,19 +64,42 @@ This XML block defines the contents of this page.</Description>
 <Language>javascript</Language>
 <ClientMethod>1</ClientMethod>
 <Implementation><![CDATA[
-
-	var externalStateInstance = this.window["global-store"].globalStore(this.moduleName)[this.moduleName]
-	this.state = {customTitle: this.moduleName, globalStore: externalStateInstance}
-	console.log('modified state',this.state)
 	this.wrapperElement = document.querySelector('#'+this.id);
+	this.state = {
+						id: this.id, 
+						customTitle: this.moduleName, 
+						moduleState: this.createState()
+						}	
+	this.loadModule()
+]]></Implementation>
+</Method>
+
+<Method name="createState">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[	return this.window["global-store"].createModuleState(this.moduleName)[this.moduleName]
+]]></Implementation>
+</Method>
+
+<Method name="loadModule">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
 	var that = this;
 	this.window['dynamic-import-module-loader'].load(this.moduleType, this.moduleName, this.loadAsync, function() {
-		that.window.DynamicImportModule.App.render(that.state, that.wrapperElement);
-		if (that.callback) {
-			console.log('has callback');
-			zenInvokeCallbackMethod(that.callback,that,'callback','module',that);
-		}
+		that.renderComponent();
 	})
+]]></Implementation>
+</Method>
+
+<Method name="renderComponent">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	this.window.StandaloneModule.App.render(this.state, this.wrapperElement);
+		if (this.callback) {
+			zenInvokeCallbackMethod(this.callback,this,'callback','module',this);
+		}
 ]]></Implementation>
 </Method>
 </Class>

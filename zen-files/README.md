@@ -29,11 +29,13 @@ insert into tsysmenuentries (ID, Position, ResourceID, Split, Status, URL, Uniqu
 --
 insert into tsysresources (ID, LanguageID, ResourceID, ResourceText, Version, TS_TSDateTime, TS_TSUser) values ('lblIncludeModule||en', 'en','lblIncludeModule', 'Include Module', 1, '20200127120000','GARCIAMO');
 --
-insert into tsysmenuentries (ID, Position, ResourceID, Split, Status, URL, UniqueID, rApplications, rMenuEntryParent, rModules, rsysPages, TS_TSDateTime, TS_TSUser) values (15001, 301, 'lblIncludeModule', 1,1,'LISPages.testing.ImportModule',15001,2,15000, 14, 1500, '20200127120000','GARCIAMO');
+insert into tsyspages (CheckUser, Dashboard, DirectAccess, HelpContent, HelpID, NewWindow, PageCode, PageID, Status, UniqueID, TS_TSDateTime, TS_TSUser) values (0,0,0,null,null,0,1500,'LISPages.testing.ImportModule',1,1500,'20200123150000','GARCIAMO');
+--
+insert into tsysmenuentries (ID, Position, ResourceID, Split, Status, URL, UniqueID, rApplications, rMenuEntryParent, rModules, rsysPages, TS_TSDateTime, TS_TSUser) values (15001, 301, 'lblIncludeModule', 1,1,'LISPages.testing.ImportModule.cls',15001,2,15000, 14, 1500, '20200127120000','GARCIAMO');
 ```
 
 open a cache terminal and execute:
 
-```
+```cos
 Do ##class(co.sys.cUtilities).RegenerateCacheMsg()
 ```

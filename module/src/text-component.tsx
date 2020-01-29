@@ -1,16 +1,16 @@
 import * as React from 'react';
 import {
   useGetGlobalText,
-  useSetGlobalText
+  useSetGlobalText,
 } from './common/providers/global-text';
 
 interface TextComponentProps {
-  color: string;
+  id: string;
   customTitle: string;
 }
 
 export const TextComponent = (props: TextComponentProps) => {
-  const { color, customTitle } = props;
+  const { id, customTitle } = props;
   const text = useGetGlobalText();
   const { setText } = useSetGlobalText();
 
@@ -20,10 +20,10 @@ export const TextComponent = (props: TextComponentProps) => {
   return (
     <div
       style={{
-        backgroundColor: color,
+        border: '3px inset black',
         padding: '1rem',
-        border: '3px inset black'
       }}
+      id={id}
     >
       <h1>React Application</h1>
       <h2>{customTitle}</h2>

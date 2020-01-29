@@ -2,6 +2,7 @@ const helpers = require('../helpers');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env = {}) => ({
+  mode: 'production',
   entry: {
     [helpers.bundleName]: ['./app.tsx']
   },
@@ -20,17 +21,17 @@ module.exports = (env = {}) => ({
   // },
   optimization: {
     minimize: false
-  },
-  plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: `${helpers.rootPath}/package.json`,
-        to: `${helpers.buildPath}/package.json`
-      },
-      {
-        from: `${helpers.srcPath}/index.d.ts`,
-        to: `${helpers.buildPath}/index.d.ts`
-      }
-    ])
-  ]
+  }
+  // plugins: [
+  //   new CopyWebpackPlugin([
+  //     {
+  //       from: `${helpers.rootPath}/package.json`,
+  //       to: `${helpers.buildPath}/package.json`
+  //     },
+  //     {
+  //       from: `${helpers.srcPath}/index.d.ts`,
+  //       to: `${helpers.buildPath}/index.d.ts`
+  //     }
+  //   ])
+  // ]
 });

@@ -5,13 +5,12 @@ import { GlobalTextProvider } from './common/providers/global-text';
 import { TextComponent } from './text-component';
 
 const AppComponent = (props: AppProps) => {
-  const { customTitle, globalStore } = props;
-  const [color, setColor] = React.useState('white');
+  const { id, customTitle, globalStore } = props;
 
   return (
     <>
       <GlobalTextProvider globalStore={globalStore}>
-        <TextComponent customTitle={customTitle} color={color} />
+        <TextComponent customTitle={customTitle} id={id} />
       </GlobalTextProvider>
     </>
   );
@@ -21,5 +20,5 @@ export const App = {
   render: (props: AppProps, container: Element) => {
     console.log('render props', props);
     ReactDOM.render(<AppComponent {...props} />, container);
-  }
+  },
 };

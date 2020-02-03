@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script type="text/javascript" src="./global-store-1.0.0.js"></script>
+    <script
+      type="text/javascript"
+      src="./modules/standalone-module-a.js"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="aWrapper"></div>
+      <div id="bWrapper"></div>
+    </div>
+  </body>
+  <script>
+    console.log(this);
+    var aState = {
+      id: 'moduleA',
+      customTitle: 'custom-module-a',
+      moduleState: window['global-store'].createModuleState('module-a')[
+        'module-a'
+      ]
+    };
+    var bState = {
+      id: 'moduleB',
+      customTitle: 'custom-module-b',
+      moduleState: window['global-store'].createModuleState('module-b')[
+        'module-b'
+      ]
+    };
+    window.StandaloneModule.App.render(
+      aState,
+      document.querySelector('#aWrapper')
+    );
+    window.StandaloneModule.App.render(
+      bState,
+      document.querySelector('#bWrapper')
+    );
+  </script>
+</html>
